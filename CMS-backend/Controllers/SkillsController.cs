@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMSBackend.BUS;
+using CMSBackend.Models.Entity.Skills;
+using Common.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +14,7 @@ namespace CMSBackend.Controllers
     [ApiController]
     public class SkillsController : ControllerBase
     {
+        private SkillsBus _skillsBus = SkillsBus.GetSkillsBUSInstance();
         // GET: api/Skills
         [HttpGet]
         public IEnumerable<string> Get()
@@ -41,6 +45,30 @@ namespace CMSBackend.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost]
+        public IActionResult GetAllSkillsWithSearchPaging([FromBody] BaseCondition<Skills> condition)
+        {
+            return Ok(_skillsBus.GetAllWithSearchPaging(condition));
+        }
+
+        [HttpPost]
+        public IActionResult AddNewSkills([FromBody] Skills Skills)
+        {
+            return Ok(_skillsBus.AddNewSkills(Skills));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateSkills(Skills Skills)
+        {
+            return Ok(_skillsBus.UpdateSkills(Skills));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteSkills([FromQuery] int id)
+        {
+            return Ok(_skillsBus.DeleteSkills(id));
         }
     }
 }

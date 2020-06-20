@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMSBackend.BUS;
+using CMSBackend.Models.Entity.JobLevel;
+using Common.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +14,7 @@ namespace CMSBackend.Controllers
     [ApiController]
     public class JobLevelController : ControllerBase
     {
+        JobLevelBus _jobLevelBUS = JobLevelBus.GetJobLevelBUSInstance();
         // GET: api/JobLevel
         [HttpGet]
         public IEnumerable<string> Get()
@@ -41,6 +45,30 @@ namespace CMSBackend.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost]
+        public IActionResult GetAllJobLevelWithSearchPaging([FromBody] BaseCondition<JobLevel> condition)
+        {
+            return Ok(_jobLevelBUS.GetAllWithSearchPaging(condition));
+        }
+
+        [HttpPost]
+        public IActionResult AddNewJobLevel([FromBody] JobLevel jobLevel)
+        {
+            return Ok(_jobLevelBUS.AddNewJobLevel(jobLevel));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateJobLevel(JobLevel jobLevel)
+        {
+            return Ok(_jobLevelBUS.UpdateJobLevel(jobLevel));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteJobLevel([FromQuery] int id)
+        {
+            return Ok(_jobLevelBUS.DeleteJobLevel(id));
         }
     }
 }

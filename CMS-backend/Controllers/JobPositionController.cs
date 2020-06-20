@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMSBackend.BUS;
+using CMSBackend.Models.Entity.JobPositon;
+using Common.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +14,7 @@ namespace CMSBackend.Controllers
     [ApiController]
     public class JobPositionController : ControllerBase
     {
+        private JobPositionBUS _jobLevelBUS = JobPositionBUS.GetJobPositionBUSInstance();
         // GET: api/JobPosition
         [HttpGet]
         public IEnumerable<string> Get()
@@ -41,6 +45,36 @@ namespace CMSBackend.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost]
+        public IActionResult GetAllJobPositionWithSearchPaging([FromBody] BaseCondition<JobPosition> condition)
+        {
+            return Ok(_jobLevelBUS.GetAllWithSearchPaging(condition));
+        }
+
+        [HttpPost]
+        public IActionResult AddNewJobPosition([FromBody] JobPosition JobPosition)
+        {
+            return Ok(_jobLevelBUS.AddNewJobPosition(JobPosition));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateJobPosition(JobPosition JobPosition)
+        {
+            return Ok(_jobLevelBUS.UpdateJobPosition(JobPosition));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStatusJobPosition(JobPosition JobPosition)
+        {
+            return Ok(_jobLevelBUS.UpdateStatusJobPosition(JobPosition));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteJobPosition([FromQuery] int id)
+        {
+            return Ok(_jobLevelBUS.DeleteJobPosition(id));
         }
     }
 }
