@@ -14,7 +14,7 @@ namespace CMSBackend.Controllers
     [ApiController]
     public class JobLevelController : ControllerBase
     {
-        JobLevelBus _jobLevelBUS = JobLevelBus.GetJobLevelBUSInstance();
+        private JobLevelBus _jobLevelBUS = JobLevelBus.GetJobLevelBUSInstance();
         // GET: api/JobLevel
         [HttpGet]
         public IEnumerable<string> Get()

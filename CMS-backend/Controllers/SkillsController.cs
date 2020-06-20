@@ -23,11 +23,13 @@ namespace CMSBackend.Controllers
         }
 
         // GET: api/Skills/5
-        [HttpGet("{id}")]
-        public string GetSkillById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetSkillsById(int id)
         {
-            return "value";
+            return Ok(_skillsBus.GetSkillsById(id));
         }
+
 
         // POST: api/Skills
         [HttpPost]

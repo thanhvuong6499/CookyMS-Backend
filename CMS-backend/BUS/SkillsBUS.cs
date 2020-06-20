@@ -36,6 +36,11 @@ namespace CMSBackend.BUS
             return _skillsDAL.GetAllSkillsWithPaging(condition);
         }
 
+        public ReturnResult<Skills> GetSkillsById(int id)
+        {
+            return _skillsDAL.GetSkillsById(id);
+        }
+
         public ReturnResult<Skills> AddNewSkills(Skills Skills)
         {
             return _skillsDAL.AddNewSkills(Skills);

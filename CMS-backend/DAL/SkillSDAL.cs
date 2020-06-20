@@ -99,6 +99,45 @@ namespace CMSBackend.DAL
             return result;
         }
 
+        public ReturnResult<Skills> GetSkillsById(int id)
+        {
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<Skills>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            Skills item = new Skills();
+            try
+            {
+                provider.SetQuery("Skills_GetById", CommandType.StoredProcedure)
+                    .SetParameter("SkillId", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetSingle<Skills>(out item).Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0" || outCode == "")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.Item = item;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+
+            return result;
+        }
+
         public ReturnResult<Skills> AddNewSkills(Skills Skills)
         {
             var result = new ReturnResult<Skills>();
