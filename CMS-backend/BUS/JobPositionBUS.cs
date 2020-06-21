@@ -36,6 +36,11 @@ namespace CMSBackend.BUS
             return _jobPositionDAL.GetAllJobPositionWithSearchPaging(condition);
         }
 
+        public ReturnResult<JobPosition> GetJobPositionId(int id)
+        {
+            return _jobPositionDAL.GetJobPositionById(id);
+        }
+
         public ReturnResult<JobPosition> AddNewJobPosition(JobPosition JobPosition)
         {
             return _jobPositionDAL.AddNewJobPosition(JobPosition);

@@ -36,6 +36,11 @@ namespace CMSBackend.BUS
             return _jobLevelDAL.GetAllJobLevelWithPaging(condition);
         }
 
+        public ReturnResult<JobLevel> GetJobLevelId(int id)
+        {
+            return _jobLevelDAL.GetJobLevelById(id);
+        }
+
         public ReturnResult<JobLevel> AddNewJobLevel(JobLevel jobLevel)
         {
             return _jobLevelDAL.AddNewJobLevel(jobLevel);

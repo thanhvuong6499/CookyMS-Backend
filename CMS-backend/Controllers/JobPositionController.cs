@@ -23,10 +23,11 @@ namespace CMSBackend.Controllers
         }
 
         // GET: api/JobPosition/5
-        [HttpGet("{id}")]
-        public string GetJobPositionById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetJobPositionById(int id)
         {
-            return "value";
+            return Ok(_jobLevelBUS.GetJobPositionId(id));
         }
 
         // POST: api/JobPosition

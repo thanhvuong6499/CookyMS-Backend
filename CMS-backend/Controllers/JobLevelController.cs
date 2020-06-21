@@ -23,10 +23,11 @@ namespace CMSBackend.Controllers
         }
 
         // GET: api/JobLevel/5
-        [HttpGet("{id}")]
-        public string GetJobLevelById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetJobLevelById(int id)
         {
-            return "value";
+            return Ok(_jobLevelBUS.GetJobLevelId(id));
         }
 
         // POST: api/JobLevel
@@ -52,6 +53,7 @@ namespace CMSBackend.Controllers
         {
             return Ok(_jobLevelBUS.GetAllWithSearchPaging(condition));
         }
+
 
         [HttpPost]
         public IActionResult AddNewJobLevel([FromBody] JobLevel jobLevel)
