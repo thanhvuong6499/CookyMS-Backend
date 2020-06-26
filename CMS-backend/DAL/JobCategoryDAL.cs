@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace CMSBackend.DAL
 {
     public class JobCategoryDAL
@@ -219,6 +218,29 @@ namespace CMSBackend.DAL
                 throw ex;
             }
 
+            return result;
+        }
+        public ReturnResult<JobCategory> GetAllJobCategory()
+        {
+            List<JobCategory> jobCategories = new List<JobCategory>();
+            DbProvider dbProvider = new DbProvider();
+            var result = new ReturnResult<JobCategory>();
+            try
+            {
+                string outCode = String.Empty;
+                string outMessage = String.Empty;
+                dbProvider.SetQuery("JobCategory_GetAllData", CommandType.StoredProcedure)
+                    .GetList<JobCategory>(out jobCategories)
+                    .Complete();
+               
+                    result.ItemList = jobCategories;
+  
+                
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
             return result;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CMSBackend.BUS;
+using CMSBackend.Common;
 using CMSBackend.Models.Entity.JobCategory;
 using Common.Common;
 using Microsoft.AspNetCore.Http;
@@ -47,7 +48,7 @@ namespace CMSBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetAllJobCategory ([FromBody] BaseCondition<JobCategory> condition)
+        public IActionResult GetAllJobCategoryWithPaging ([FromBody] BaseCondition<JobCategory> condition)
         {
             return Ok(_JobCategoryBUS.GetAll(condition));
         }
@@ -65,6 +66,16 @@ namespace CMSBackend.Controllers
         public IActionResult DeleteJobCategory([FromQuery] int id)
         {
             return Ok(_JobCategoryBUS.DeleteJobCategory(id));
+        }
+        [HttpGet]
+        public IActionResult GetAllJobCategory()
+        {
+            ReturnResult<JobCategory> result = _JobCategoryBUS.GetAllJobCategory();
+            return Ok(new CategoryFilterOptions()
+            {
+                lstCategoryName = result.ItemList.Select(item => item.CategoryName).Distinct().ToList(),
+                lstStatus = result.ItemList.Select(item => item.Status).Distinct().ToList(),
+            });
         }
 
     }

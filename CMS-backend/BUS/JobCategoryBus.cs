@@ -46,5 +46,9 @@ namespace CMSBackend.BUS
         {
             return _jobCategoryDAL.DeleteJobCategory(id);
         }
+        public ReturnResult<JobCategory> GetAllJobCategory()
+        {
+            return _jobCategoryDAL.GetAllJobCategory();
+        }
     }
 }
