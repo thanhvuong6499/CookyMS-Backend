@@ -23,4 +23,8 @@
     <PackageReference Update="Microsoft.NETCore.App" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Entity\RecruimentNews\" />
+  </ItemGroup>
+
 </Project>
