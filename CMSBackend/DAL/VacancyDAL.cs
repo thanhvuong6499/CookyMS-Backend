@@ -122,7 +122,7 @@ namespace CMSBackend.DAL
             Vacancy item = new Vacancy();
             try
             {
-                provider.SetQuery("Vacancy_GetById", CommandType.StoredProcedure)
+                provider.SetQuery("Vacancy_GetVacancyById", CommandType.StoredProcedure)
                     .SetParameter("Id", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)

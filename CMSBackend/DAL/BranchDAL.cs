@@ -1,5 +1,5 @@
 ﻿using CMSBackend.Common;
-using CMSBackend.Models.Entity.BranchContact;
+using CMSBackend.Models.Entity.Branch;
 using Common.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,36 +10,36 @@ using System.Threading.Tasks;
 
 namespace CMSBackend.DAL
 {
-    public class BranchContactDAL
+    public class BranchDAL
     {
-        private BranchContactDAL()
+        private BranchDAL()
         {
 
         }
-        private static BranchContactDAL _instance;
-        public static BranchContactDAL GetBranchContactDALInstance()
+        private static BranchDAL _instance;
+        public static BranchDAL GetBranchDALInstance()
         {
             if (_instance == null)
             {
-                _instance = new BranchContactDAL();
+                _instance = new BranchDAL();
             }
             return _instance;
         }
 
-        public ReturnResult<BranchContact> GetAllBranchContact()
+        public ReturnResult<Branch> GetAllBranch()
         {
-            ReturnResult<BranchContact> result = new ReturnResult<BranchContact>();
+            ReturnResult<Branch> result = new ReturnResult<Branch>();
             DbProvider db = new DbProvider();
-            var lstBranchContact = new List<BranchContact>();
+            var lstBranch = new List<Branch>();
             try
             {
-                db.SetQuery("BranchContact_GetAll", System.Data.CommandType.StoredProcedure)
-                    .GetList<BranchContact>(out lstBranchContact)
+                db.SetQuery("Branch_GetAll", System.Data.CommandType.StoredProcedure)
+                    .GetList<Branch>(out lstBranch)
                     .Complete();
 
-                if (lstBranchContact.Count > 0)
+                if (lstBranch.Count > 0)
                 {
-                    result.ItemList = lstBranchContact;
+                    result.ItemList = lstBranch;
                     result.ErrorMessage = "";
                     result.ErrorCode = "0";
                 }
@@ -52,25 +52,25 @@ namespace CMSBackend.DAL
             return result;
         }
 
-        public ReturnResult<BranchContact> GetAllBranchContactWithPaging(BaseCondition<BranchContact> condition)
+        public ReturnResult<Branch> GetAllBranchWithPaging(BaseCondition<Branch> condition)
         {
 
             DbProvider provider = new DbProvider();
-            List<BranchContact> list = new List<BranchContact>();
+            List<Branch> list = new List<Branch>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            var result = new ReturnResult<BranchContact>();
+            var result = new ReturnResult<Branch>();
             try
             {
-                provider.SetQuery("BranchContact_GetAllWithSearchPaging", System.Data.CommandType.StoredProcedure)
+                provider.SetQuery("Branch_GetPaging", System.Data.CommandType.StoredProcedure)
                     .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
                     .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
                     .SetParameter("StartRow", SqlDbType.Int, condition.PageIndex)
                     .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<BranchContact>(out list).Complete();
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<Branch>(out list).Complete();
 
                 if (list.Count > 0)
                 {
@@ -99,21 +99,21 @@ namespace CMSBackend.DAL
             return result;
         }
 
-        public ReturnResult<BranchContact> GetBranchContactById(int id)
+        public ReturnResult<Branch> GetBranchById(int id)
         {
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<BranchContact>();
+            var result = new ReturnResult<Branch>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            BranchContact item = new BranchContact();
+            Branch item = new Branch();
             try
             {
-                provider.SetQuery("BranchContact_GetBranchContactById", CommandType.StoredProcedure)
-                    .SetParameter("@BranchContactId", SqlDbType.Int, id, ParameterDirection.Input)
+                provider.SetQuery("Branch_GetById", CommandType.StoredProcedure)
+                    .SetParameter("ID", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                    .GetSingle<BranchContact>(out item).Complete();
+                    .GetSingle<Branch>(out item).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
@@ -138,9 +138,9 @@ namespace CMSBackend.DAL
             return result;
         }
 
-        public ReturnResult<BranchContact> AddNewBranchContact(BranchContact BranchContact)
+        public ReturnResult<Branch> AddNewBranch(Branch Branch)
         {
-            var result = new ReturnResult<BranchContact>();
+            var result = new ReturnResult<Branch>();
             DbProvider db = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
@@ -148,14 +148,17 @@ namespace CMSBackend.DAL
             try
             {
                 // Set tên stored procedure
-                db.SetQuery("BranchContact_AddNew", CommandType.StoredProcedure)
-                .SetParameter("BranchContactCode", SqlDbType.NVarChar, BranchContact.BranchContactCode)
-                .SetParameter("BranchContactName", SqlDbType.NVarChar, BranchContact.BranchContactName)
-                .SetParameter("ContactName", SqlDbType.NVarChar, BranchContact.ContactName)
-                .SetParameter("Email", SqlDbType.NVarChar, BranchContact.Email)
-                .SetParameter("Hotline", SqlDbType.NVarChar, BranchContact.Hotline)
-                .SetParameter("IPPhone", SqlDbType.NVarChar, BranchContact.IPPhone)
-                .SetParameter("OperateStatus", SqlDbType.Int, BranchContact.OperateStatus)
+                db.SetQuery("Branch_Insert", CommandType.StoredProcedure)
+                .SetParameter("BranchCode", SqlDbType.NVarChar, Branch.BranchCode)
+                .SetParameter("BranchName", SqlDbType.NVarChar, Branch.BranchName)
+                .SetParameter("Description", SqlDbType.NVarChar, Branch.Description)
+                .SetParameter("CreateUser", SqlDbType.NVarChar, Branch.CreatedUser)
+                .SetParameter("Status", SqlDbType.Int, Branch.Status)
+                .SetParameter("BranchAddress", SqlDbType.NVarChar, Branch.BranchAddress)
+                .SetParameter("BranchSize", SqlDbType.NVarChar, Branch.BranchSize)
+                .SetParameter("BranchPhone", SqlDbType.NVarChar, Branch.BranchPhone)
+                .SetParameter("BranchEmail", SqlDbType.NVarChar, Branch.BranchEmail)
+                .SetParameter("ProvinceId", SqlDbType.NVarChar, Branch.ProvinceCode)
                 .SetParameter("InsertedId", SqlDbType.Int, 1)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
@@ -172,7 +175,7 @@ namespace CMSBackend.DAL
                 }
                 else
                 {
-                    result.Item = BranchContact;
+                    result.Item = Branch;
                     result.ErrorCode = "0";
                     result.ErrorMessage = "";
                 }
@@ -184,64 +187,24 @@ namespace CMSBackend.DAL
             return result;
         }
 
-        public ReturnResult<BranchContact> UpdateBranchContact(BranchContact BranchContact)
-        {
-            ReturnResult<BranchContact> result = new ReturnResult<BranchContact>(); ;
-            DbProvider db;
-            try
-            {
-                db = new DbProvider();
-                db.SetQuery("BranchContact_Update", CommandType.StoredProcedure);
-                db.SetParameter("BranchContactId", SqlDbType.Int, BranchContact.BranchContactId);
-                db.SetParameter("BranchContactCode", SqlDbType.NVarChar, BranchContact.BranchContactCode);
-                db.SetParameter("BranchContactName", SqlDbType.NVarChar, BranchContact.BranchContactName);
-                db.SetParameter("ContactName", SqlDbType.NVarChar, BranchContact.ContactName);
-                db.SetParameter("Address", SqlDbType.NVarChar, BranchContact.Address);
-                db.SetParameter("Email", SqlDbType.NVarChar, BranchContact.Email);
-                db.SetParameter("Hotline", SqlDbType.NVarChar, BranchContact.Hotline);
-                db.SetParameter("IPPhone", SqlDbType.NVarChar, BranchContact.IPPhone);
-                db.SetParameter("OperateStatus", SqlDbType.Int, BranchContact.OperateStatus);
-                db.SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output);
-                db.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output);
-                db.ExcuteNonQuery();
-                db.Complete();
-                db.GetOutValue("ErrorCode", out string errorCode);
-                db.GetOutValue("ErrorMessage", out string errorMessage);
-                if (errorCode.ToString() == "0")
-                {
-                    result.ErrorCode = "0";
-                    result.ErrorMessage = "";
-                }
-                else
-                {
-                    result.Failed(errorCode, errorMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.Failed("-1", ex.Message);
-            }
-            return result;
-        }
-
-        public ReturnResult<BranchContact> DeleteBranchContact(int id)
+        public ReturnResult<Branch> DeleteBranch(int id)
         {
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<BranchContact>();
+            var result = new ReturnResult<Branch>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            BranchContact item = new BranchContact();
+            Branch item = new Branch();
             try
             {
-                provider.SetQuery("BranchContact_Delete", CommandType.StoredProcedure)
-                    .SetParameter("BranchContactId", SqlDbType.Int, id, System.Data.ParameterDirection.Input)
+                provider.SetQuery("Branch_Delete", CommandType.StoredProcedure)
+                    .SetParameter("ID", SqlDbType.Int, id, System.Data.ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .SetParameter("ReturnMsg", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
                     .ExcuteNonQuery().Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
-                          .GetOutValue("ErrorMessage", out outMessage);
+                          .GetOutValue("ReturnMsg", out outMessage);
 
                 if (outCode != "0")
                 {
