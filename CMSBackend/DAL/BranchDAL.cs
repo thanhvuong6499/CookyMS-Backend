@@ -70,8 +70,8 @@ namespace CMSBackend.DAL
                     .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<Branch>(out list).Complete();
-
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<Branch>(out list)
+                    .Complete();
                 if (list.Count > 0)
                 {
                     result.ItemList = list;
@@ -158,19 +158,20 @@ namespace CMSBackend.DAL
                 .SetParameter("BranchSize", SqlDbType.NVarChar, Branch.BranchSize)
                 .SetParameter("BranchPhone", SqlDbType.NVarChar, Branch.BranchPhone)
                 .SetParameter("BranchEmail", SqlDbType.NVarChar, Branch.BranchEmail)
-                .SetParameter("ProvinceId", SqlDbType.NVarChar, Branch.ProvinceCode)
-                .SetParameter("InsertedId", SqlDbType.Int, 1)
+                .SetParameter("ProvinceId", SqlDbType.NVarChar, Branch.ProvinceId)
+                .SetParameter("UserId", SqlDbType.Int, Branch.UserId)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .SetParameter("ReturnMsg", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .ExcuteNonQuery()
                     .Complete();
 
 
                 db.GetOutValue("ErrorCode", out outCode)
-                    .GetOutValue("ErrorMessage", out outMessage);
+                    .GetOutValue("ReturnMsg", out outMessage);
                 if (outCode != "0" || outCode == "")
                 {
-                    result.Failed(outCode, outMessage);
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
 
                 }
                 else

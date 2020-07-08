@@ -8,6 +8,8 @@ namespace CMSBackend.Models.Entity.Branch
     public class Branch
     {
         public int ID { get; set; }
+        public int UserId { get; set; }
+
         public string BranchName { get; set; }
         public string BranchCode { get; set; }
         public string Description { get; set; }
@@ -16,7 +18,7 @@ namespace CMSBackend.Models.Entity.Branch
         public string ModifiedUser { get; set; }
         public DateTime ModifiedDate { get; set; }
         public int Status { get; set; }
-        public string ProvinceCode { get; set; }
+        public string ProvinceId { get; set; }
         public string BranchAddress { get; set; }
         public string BranchSize { get; set; }
         public string BranchPhone { get; set; }
