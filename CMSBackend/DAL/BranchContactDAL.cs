@@ -109,7 +109,7 @@ namespace CMSBackend.DAL
             BranchContact item = new BranchContact();
             try
             {
-                provider.SetQuery("BranchContact_GetById", CommandType.StoredProcedure)
+                provider.SetQuery("BranchContact_GetBranchContactById", CommandType.StoredProcedure)
                     .SetParameter("@BranchContactId", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
@@ -196,6 +196,7 @@ namespace CMSBackend.DAL
                 db.SetParameter("BranchContactCode", SqlDbType.NVarChar, BranchContact.BranchContactCode);
                 db.SetParameter("BranchContactName", SqlDbType.NVarChar, BranchContact.BranchContactName);
                 db.SetParameter("ContactName", SqlDbType.NVarChar, BranchContact.ContactName);
+                db.SetParameter("Address", SqlDbType.NVarChar, BranchContact.Address);
                 db.SetParameter("Email", SqlDbType.NVarChar, BranchContact.Email);
                 db.SetParameter("Hotline", SqlDbType.NVarChar, BranchContact.Hotline);
                 db.SetParameter("IPPhone", SqlDbType.NVarChar, BranchContact.IPPhone);
