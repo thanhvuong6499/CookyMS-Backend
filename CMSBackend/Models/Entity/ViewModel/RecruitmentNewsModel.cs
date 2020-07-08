@@ -9,8 +9,12 @@ namespace CMSBackend.Models.Entity.ViewModel
     {
         public int RecruitmentId { get; set; }
         public int BranchId { get; set; }
+        public int BranchHrId { get; set; }
+
         public string JobCode { get; set; }
         public int BranchAddressId { get; set; }
+        public int SkillId { get; set; }
+
         public int AreaId { get; set; }
         public string AreaName { get; set; }
         public int JobTypeId { get; set; }
@@ -42,10 +46,20 @@ namespace CMSBackend.Models.Entity.ViewModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int Hot { get; set; }
+        public int HotRequest { get; set; }
+
         public int ExamType { get; set; }
         public int ProcessStatus { get; set; }
+        public int YearExpMax { get; set; }
+        public int YearExpMin { get; set; }
+        public int FK_VacancyId { get; set; }
+        public string FullTitle { get; set; }
+
+
         public string company_name { get; set; }
         public string company_info { get; set; }
+        public string company_logo { get; set; }
+        public string company_size { get; set; }
         public string JobFullDescription { get; set; }
 
         public string Address { get; set; }
@@ -57,7 +71,7 @@ namespace CMSBackend.Models.Entity.ViewModel
         public string Email { get; set; }
         public string Telephone { get; set; }
         public string MobilePhone { get; set; }
-
+        public string BranchHrEmail { get; set; }
         public List<HomeRecruitmentNewsViewModel> RelativeList { get; set; }
 
         public List<BranchAddressViewModel> BranchAddresViewModels { get; set; }
