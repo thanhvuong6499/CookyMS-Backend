@@ -44,6 +44,25 @@ namespace CMSBackend.Controllers.Outside
         {
             return Ok(_TipsOutsideBUS.AddNewTip(tip));
         }
-
+        [HttpPost]
+        public IActionResult GetAllTipWithPaging([FromBody] BaseCondition<Tip> condition)
+        {
+            return Ok(_TipsOutsideBUS.GetAllTipPaging(condition));
+        }
+        [HttpPost]
+        public IActionResult AddNewTip([FromBody] Tip Tip)
+        {
+            return Ok(_TipsOutsideBUS.AddNewTip(Tip));
+        }
+        [HttpPost]
+        public IActionResult UpdateTip(Tip Tip)
+        {
+            return Ok(_TipsOutsideBUS.UpdateTip(Tip));
+        }
+        [HttpPost]
+        public IActionResult DeleteTip([FromQuery] int id)
+        {
+            return Ok(_TipsOutsideBUS.DeleteTip(id));
+        }
     }
 }
