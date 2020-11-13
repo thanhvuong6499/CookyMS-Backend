@@ -106,6 +106,52 @@ namespace CMSBackend.DAL.OusideDAL
 
         //    return result;
         //}
+        public ReturnResult<RecipeModel> AddNewRecipe(RecipeModel recipe)
+        {
+            var result = new ReturnResult<RecipeModel>();
+            DbProvider db = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            try
+            {
+                // Set tên stored procedure
+                db.SetQuery("Recipes_Insert", CommandType.StoredProcedure)
+                .SetParameter("UserId", SqlDbType.Int, recipe.UserId)
+                .SetParameter("Name", SqlDbType.NVarChar, recipe.Name)
+                .SetParameter("Note", SqlDbType.NVarChar, recipe.Note)
+                .SetParameter("CategoryId", SqlDbType.Int, recipe.CategoryId)
+                .SetParameter("CreatedUser", SqlDbType.NVarChar, recipe.UserId)
+                .SetParameter("ImageBackgroundUrl", SqlDbType.NVarChar, recipe.ImageBackgroundUrl)
+                .SetParameter("ContestId", SqlDbType.Int, recipe.ContestId)
+                .SetParameter("Status", SqlDbType.TinyInt, recipe.Status)
+                .SetParameter("IN_StepListJson", SqlDbType.TinyInt, Libs.SerializeObject(recipe.StepList))
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                    .Complete();
+
+
+                db.GetOutValue("ErrorCode", out outCode)
+                    .GetOutValue("ErrorMessage", out outMessage);
+                if (outCode != "0" || outCode == "")
+                {
+                    result.Failed(outCode, outMessage);
+
+                }
+                else
+                {
+                    result.Item = recipe;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
         public ReturnResult<RecipeModel> GetAllRecipes()
         {
             List<RecipeModel> recipes = new List<RecipeModel>();

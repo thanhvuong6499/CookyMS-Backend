@@ -50,6 +50,11 @@ namespace CMSBackend.Controllers.Outside
         {
             return Ok(_RecipeOutsideBUS.GetAllRecipes());
         }
+        [HttpPost]
+        public IActionResult AddNewRecipe([FromBody] RecipeModel recipe)
+        {
+            return Ok(_RecipeOutsideBUS.AddNewRecipe(recipe));
+        }
 
     }
 }
