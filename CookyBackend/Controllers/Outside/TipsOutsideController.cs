@@ -40,9 +40,9 @@ namespace CMSBackend.Controllers.Outside
         }
 
         [HttpPost]
-        public IActionResult AddNewTips([FromBody] Tip tip)
+        public IActionResult GetTipById([FromBody] int id)
         {
-            return Ok(_TipsOutsideBUS.AddNewTip(tip));
+            return Ok(_TipsOutsideBUS.GetTipId(id));
         }
         [HttpPost]
         public IActionResult GetAllTipWithPaging([FromBody] BaseCondition<Tip> condition)

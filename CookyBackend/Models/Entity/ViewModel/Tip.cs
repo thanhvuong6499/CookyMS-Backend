@@ -9,10 +9,10 @@ namespace CookyBackend.Models.Entity.ViewModel
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int Name { get; set; }
-        public int Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public int Status { get; set; }
-        public string ImgUrl { get; set; }
+        public string ImageUrl { get; set; }
         public string CreatedUser { get; set; }
         public int CreatedDate { get; set; }
         public string ModifiedUser { get; set; }

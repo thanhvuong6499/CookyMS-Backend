@@ -37,7 +37,7 @@ namespace CMSBackend.DAL.OusideDAL
                 .SetParameter("Name", SqlDbType.NVarChar, tip.Name)
                 .SetParameter("Description", SqlDbType.NVarChar, tip.Description)
                 .SetParameter("CreatedUser", SqlDbType.NVarChar, tip.UserId)
-                .SetParameter("ImgUrl", SqlDbType.NVarChar, tip.ImgUrl)
+                .SetParameter("ImageUrl", SqlDbType.NVarChar, tip.ImageUrl)
                 .SetParameter("Status", SqlDbType.TinyInt, tip.Status)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
@@ -149,7 +149,7 @@ namespace CMSBackend.DAL.OusideDAL
 
         //    return result;
         //}
-        public ReturnResult<Tip> GetAllTipsPaging(BaseCondition<Tip> condition)
+        public  ReturnResult<Tip> GetAllTipsPaging(BaseCondition<Tip> condition)
         {
 
             DbProvider provider = new DbProvider();
@@ -245,7 +245,7 @@ namespace CMSBackend.DAL.OusideDAL
                 .SetParameter("Name", SqlDbType.NVarChar, tip.Name)
                 .SetParameter("Description", SqlDbType.NVarChar, tip.Description)
                 .SetParameter("CreatedUser", SqlDbType.NVarChar, tip.UserId)
-                .SetParameter("ImgUrl", SqlDbType.NVarChar, tip.ImgUrl)
+                .SetParameter("ImgUrl", SqlDbType.NVarChar, tip.ImageUrl)
                 .SetParameter("Status", SqlDbType.TinyInt, tip.Status)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
