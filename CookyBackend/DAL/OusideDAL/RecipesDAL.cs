@@ -113,10 +113,12 @@ namespace CMSBackend.DAL.OusideDAL
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
+
+            string temp = Libs.SerializeObject(recipe.StepList);
             try
             {
                 // Set tên stored procedure
-                db.SetQuery("Recipes_Insert", CommandType.StoredProcedure)
+                db.SetQuery("Recipe_Insert", CommandType.StoredProcedure)
                 .SetParameter("UserId", SqlDbType.Int, recipe.UserId)
                 .SetParameter("Name", SqlDbType.NVarChar, recipe.Name)
                 .SetParameter("Note", SqlDbType.NVarChar, recipe.Note)
@@ -125,15 +127,15 @@ namespace CMSBackend.DAL.OusideDAL
                 .SetParameter("ImageBackgroundUrl", SqlDbType.NVarChar, recipe.ImageBackgroundUrl)
                 .SetParameter("ContestId", SqlDbType.Int, recipe.ContestId)
                 .SetParameter("Status", SqlDbType.TinyInt, recipe.Status)
-                .SetParameter("IN_StepListJson", SqlDbType.TinyInt, Libs.SerializeObject(recipe.StepList))
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .SetParameter("IN_StepListJson", SqlDbType.NVarChar, Libs.SerializeObject(recipe.StepList))
+                .SetParameter("OUT_ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("OUT_ReturnMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .ExcuteNonQuery()
                     .Complete();
 
-
-                db.GetOutValue("ErrorCode", out outCode)
-                    .GetOutValue("ErrorMessage", out outMessage);
+                
+                db.GetOutValue("OUT_ErrorCode", out outCode)
+                    .GetOutValue("OUT_ReturnMessage", out outMessage);
                 if (outCode != "0" || outCode == "")
                 {
                     result.Failed(outCode, outMessage);

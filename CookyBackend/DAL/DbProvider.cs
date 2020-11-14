@@ -50,7 +50,7 @@ namespace CMSBackend.DAL
         }
         public Db()
         {
-            _connectionString = "Data Source=LAPTOP-L55VLDH2;Initial Catalog=CookyMS;User ID=sa;Password=1";
+            _connectionString = "Data Source=DESKTOP-BPH49KV\\SQLEXPRESS;Initial Catalog=CookyMS;User ID=sa;Password=1";
             _connection = new SqlConnection(_connectionString);
             if (_connection.State == ConnectionState.Closed)
             {
