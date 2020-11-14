@@ -13,5 +13,6 @@ namespace CookyBackend.Models.Entity.ViewModel
         public string ImageUrl { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int Status { get; set; }
     }
 }

@@ -30,5 +30,10 @@ namespace CookyBackend.BUS.Outside
         {
             return _ContestDAL.GetContestPaging(condition);
         }
+
+        public ReturnResult<Contest> GetContestId(int id)
+        {
+            return _ContestDAL.GetContestById(id);
+        }
     }
 }

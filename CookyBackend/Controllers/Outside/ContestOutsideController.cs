@@ -44,5 +44,11 @@ namespace CookyBackend.Controllers.Outside
         {
             return Ok(_ContestOutsideBus.GetAllContestPaging(condition));
         }
+
+        [HttpPost]
+        public IActionResult GetContestById([FromBody] int id)
+        {
+            return Ok(_ContestOutsideBus.GetContestId(id));
+        }
     }
 }
