@@ -21,6 +21,8 @@ namespace CookyBackend.Models.Entity.ViewModel
         public int ModifiedDate { get; set; }
         public int Deleted { get; set; }
         public List<StepList> StepList { get; set; }
+        public List<MaterialList> MaterialList { get; set; }
+
 
     }
 }

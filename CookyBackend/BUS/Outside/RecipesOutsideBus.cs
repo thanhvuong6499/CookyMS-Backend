@@ -38,5 +38,17 @@ namespace CMSBackend.BUS.Outside
         {
             return _RecipesDAL.AddNewRecipe(recipe);
         }
+        public ReturnResult<RecipeModel> UpdateRecipe(RecipeModel recipe)
+        {
+            return _RecipesDAL.UpdateRecipe(recipe);
+        }
+        public ReturnResult<RecipeModel> DeleteRecipe(int id)
+        {
+            return _RecipesDAL.DeleteRecipe(id);
+        }
+        public ReturnResult<RecipeModel> GetRecipeById(int id)
+        {
+            return _RecipesDAL.GetRecipeById(id);
+        }
     }
 }

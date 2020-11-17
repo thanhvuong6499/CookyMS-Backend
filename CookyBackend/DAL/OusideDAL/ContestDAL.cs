@@ -108,5 +108,116 @@ namespace CookyBackend.DAL.OusideDAL
 
             return result;
         }
+        public ReturnResult<Contest> DeleteContest(int id)
+        {
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<Contest>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            Contest item = new Contest();
+            try
+            {
+                provider.SetQuery("Contest_Delete", CommandType.StoredProcedure)
+                    .SetParameter("Id", SqlDbType.Int, id, System.Data.ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .ExcuteNonQuery().Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+        public ReturnResult<Contest> UpdateContest(Contest contest)
+        {
+            ReturnResult<Contest> result = new ReturnResult<Contest>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Contest_Update", CommandType.StoredProcedure);
+                db.SetParameter("Id", SqlDbType.Int, contest.Id)
+                .SetParameter("Name", SqlDbType.NVarChar, contest.Name)
+                .SetParameter("ContentContest", SqlDbType.NVarChar, contest.ContentContest)
+                .SetParameter("StartDate", SqlDbType.DateTime, contest.StartDate)
+                .SetParameter("EndDate", SqlDbType.DateTime, contest.EndDate)
+                .SetParameter("ModifiedUser", SqlDbType.NVarChar, contest.UserId)
+                .SetParameter("ImageUrl", SqlDbType.NVarChar, contest.ImageUrl)
+                .SetParameter("Status", SqlDbType.TinyInt, contest.Status)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<Contest> InsertContest(Contest contest)
+        {
+            ReturnResult<Contest> result = new ReturnResult<Contest>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Contest_Insert", CommandType.StoredProcedure);
+                db.SetParameter("Name", SqlDbType.NVarChar, contest.Name)
+                .SetParameter("ContentContest", SqlDbType.NVarChar, contest.ContentContest)
+                .SetParameter("StartDate", SqlDbType.DateTime, contest.StartDate)
+                .SetParameter("EndDate", SqlDbType.DateTime, contest.EndDate)
+                .SetParameter("CreatedUser", SqlDbType.NVarChar, contest.UserId)
+                .SetParameter("ImageUrl", SqlDbType.NVarChar, contest.ImageUrl)
+                .SetParameter("Status", SqlDbType.TinyInt, contest.Status)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
     }
 }

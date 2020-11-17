@@ -50,5 +50,20 @@ namespace CookyBackend.Controllers.Outside
         {
             return Ok(_ContestOutsideBus.GetContestId(id));
         }
+        [HttpPost]
+        public IActionResult AddNewContest([FromBody] Contest contest)
+        {
+            return Ok(_ContestOutsideBus.AddNewContest(contest));
+        }
+        [HttpPost]
+        public IActionResult UpdateContest(Contest contest)
+        {
+            return Ok(_ContestOutsideBus.UpdateContest(contest));
+        }
+        [HttpPost]
+        public IActionResult DeleteContest([FromQuery] int id)
+        {
+            return Ok(_ContestOutsideBus.DeleteRecipe(id));
+        }
     }
 }

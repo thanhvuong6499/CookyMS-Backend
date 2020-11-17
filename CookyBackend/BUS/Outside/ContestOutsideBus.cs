@@ -35,5 +35,17 @@ namespace CookyBackend.BUS.Outside
         {
             return _ContestDAL.GetContestById(id);
         }
+        public ReturnResult<Contest> AddNewContest(Contest contest)
+        {
+            return _ContestDAL.InsertContest(contest);
+        }
+        public ReturnResult<Contest> UpdateContest(Contest contest)
+        {
+            return _ContestDAL.UpdateContest(contest);
+        }
+        public ReturnResult<Contest> DeleteRecipe(int id)
+        {
+            return _ContestDAL.DeleteContest(id);
+        }
     }
 }
