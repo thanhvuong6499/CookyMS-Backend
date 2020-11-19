@@ -271,7 +271,6 @@ namespace CMSBackend.DAL.OusideDAL
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
-
                 if (outCode != "0" || outCode == "")
                 {
                     result.ErrorCode = outCode;
@@ -279,7 +278,10 @@ namespace CMSBackend.DAL.OusideDAL
                 }
                 else
                 {
+                     
                     result.Item = item;
+                    item.StepList = this.GetStepByRecipeId(id);
+                    item.MaterialList = this.GetMaterialByRecipeId(id);
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
                 }
@@ -290,6 +292,90 @@ namespace CMSBackend.DAL.OusideDAL
             }
 
             return result;
+        }
+        public List<StepList> GetStepByRecipeId(int id)
+        {
+
+            DbProvider provider = new DbProvider();
+            List<StepList> list = new List<StepList>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var resultSt = new List<StepList>();
+            try
+            {
+                provider.SetQuery("Steps_GetByRecipeId", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("Id", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<StepList>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    resultSt = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+                          
+
+                if (outCode != "0")
+                {
+                    //resultSt = outCode;
+                    //resultSt= outMessage;
+                }
+                else
+                {
+                    //resultSt.ErrorCode = "";
+                    //resultSt.ErrorMessage = "";
+                    //resultSt.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                //resultSt.Failed("-1", ex.Message);
+            }
+            return resultSt;
+        }
+        public List<MaterialList> GetMaterialByRecipeId(int id)
+        {
+
+            DbProvider provider = new DbProvider();
+            List<MaterialList> list = new List<MaterialList>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var resultMt = new List<MaterialList>();
+            try
+            {
+                provider.SetQuery("Materials_GetByRecipeId", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("Id", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<MaterialList>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    resultMt = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+
+                if (outCode != "0")
+                {
+                    //resultSt = outCode;
+                    //resultSt= outMessage;
+                }
+                else
+                {
+                    //resultSt.ErrorCode = "";
+                    //resultSt.ErrorMessage = "";
+                    //resultSt.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                //resultSt.Failed("-1", ex.Message);
+            }
+            return resultMt;
         }
     }
 }
