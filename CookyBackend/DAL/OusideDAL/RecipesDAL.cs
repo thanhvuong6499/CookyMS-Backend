@@ -253,21 +253,21 @@ namespace CMSBackend.DAL.OusideDAL
 
             return result;
         }
-        public ReturnResult<RecipeModel> GetRecipeById(int id)
+        public ReturnResult<RecipeDetail> GetRecipeById(int id)
         {
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<RecipeModel>();
+            var result = new ReturnResult<RecipeDetail>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            RecipeModel item = new RecipeModel();
+            RecipeDetail item = new RecipeDetail();
             try
             {
                 provider.SetQuery("Recipe_GetById", CommandType.StoredProcedure)
                     .SetParameter("Id", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                    .GetSingle<RecipeModel>(out item).Complete();
+                    .GetSingle<RecipeDetail>(out item).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
@@ -278,10 +278,9 @@ namespace CMSBackend.DAL.OusideDAL
                 }
                 else
                 {
-                     
-                    result.Item = item;
                     item.StepList = this.GetStepByRecipeId(id);
                     item.MaterialList = this.GetMaterialByRecipeId(id);
+                    result.Item = item;
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
                 }

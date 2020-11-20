@@ -63,7 +63,7 @@ namespace CMSBackend.Controllers.Outside
             return Ok(_RecipeOutsideBUS.UpdateRecipe(recipe));
         }
         [HttpPost]
-        public IActionResult DeleteRecipe([FromQuery] int id)
+        public IActionResult DeleteRecipe([FromBody] int id)
         {
             return Ok(_RecipeOutsideBUS.DeleteRecipe(id));
         }

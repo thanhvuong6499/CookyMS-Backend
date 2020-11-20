@@ -46,7 +46,7 @@ namespace CMSBackend.BUS.Outside
         {
             return _RecipesDAL.DeleteRecipe(id);
         }
-        public ReturnResult<RecipeModel> GetRecipeById(int id)
+        public ReturnResult<RecipeDetail> GetRecipeById(int id)
         {
             return _RecipesDAL.GetRecipeById(id);
         }
