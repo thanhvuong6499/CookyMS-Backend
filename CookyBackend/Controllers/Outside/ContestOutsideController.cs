@@ -61,7 +61,7 @@ namespace CookyBackend.Controllers.Outside
             return Ok(_ContestOutsideBus.UpdateContest(contest));
         }
         [HttpPost]
-        public IActionResult DeleteContest([FromQuery] int id)
+        public IActionResult DeleteContest([FromBody] int id)
         {
             return Ok(_ContestOutsideBus.DeleteRecipe(id));
         }
