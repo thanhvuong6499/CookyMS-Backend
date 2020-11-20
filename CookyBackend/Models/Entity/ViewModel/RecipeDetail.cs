@@ -13,6 +13,7 @@ namespace CookyBackend.Models.Entity.ViewModel
         public int Status { get; set; }
         public int CategoryId { get; set; }
         public int CreatedDate { get; set; }
+        public string ImageBackgroundUrl { get; set; }
         public List<StepList> StepList { get; set; }
         public List<MaterialList> MaterialList { get; set; }
     }

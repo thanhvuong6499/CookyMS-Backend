@@ -60,7 +60,7 @@ namespace CMSBackend.Controllers.Outside
             return Ok(_TipsOutsideBUS.UpdateTip(Tip));
         }
         [HttpPost]
-        public IActionResult DeleteTip([FromQuery] int id)
+        public IActionResult DeleteTip([FromBody] int id)
         {
             return Ok(_TipsOutsideBUS.DeleteTip(id));
         }

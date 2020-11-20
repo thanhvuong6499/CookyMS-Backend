@@ -278,10 +278,9 @@ namespace CMSBackend.DAL.OusideDAL
                 }
                 else
                 {
-                     
-                    result.Item = item;
                     item.StepList = this.GetStepByRecipeId(id);
                     item.MaterialList = this.GetMaterialByRecipeId(id);
+                    result.Item = item;
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
                 }
