@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using CookyBackend.Models.Entity.ViewModel;
+using CookyBackend.Common;
 
 namespace CMSBackend.DAL.OusideDAL
 {
@@ -375,6 +376,91 @@ namespace CMSBackend.DAL.OusideDAL
                 //resultSt.Failed("-1", ex.Message);
             }
             return resultMt;
+        }
+        public ReturnResult<RecipeModel> GetRecipeByUserIdPaging(NewCondi condi)
+        {
+
+            DbProvider provider = new DbProvider();
+            List<RecipeModel> list = new List<RecipeModel>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<RecipeModel>();
+            try
+            {
+                provider.SetQuery("Recipe_GetAllByUserIdWithPaging", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("UserId", SqlDbType.Int, condi.UserId, ParameterDirection.Input)
+                    .SetParameter("PageIndex", SqlDbType.Int, condi.condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condi.condition.PageSize)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ReturnMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<RecipeModel>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ReturnMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<RecipeModel> GetRecipesSimilar(int id)
+        {
+            List<RecipeModel> recipes = new List<RecipeModel>();
+            DbProvider dbProvider = new DbProvider();
+            var result = new ReturnResult<RecipeModel>();
+            List<RecipeModel> list = new List<RecipeModel>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            try
+            {
+                
+                dbProvider.SetQuery("Recipe_GetSimilar", CommandType.StoredProcedure)
+                    .SetParameter("RecipeId", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ReturnMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<RecipeModel>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ReturnMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
     }
 }

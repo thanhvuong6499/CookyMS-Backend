@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CMSBackend.BUS.Outside;
 using Common.Common;
+using CookyBackend.Common;
 using CookyBackend.Models.Entity.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,11 +46,22 @@ namespace CMSBackend.Controllers.Outside
         {
             return Ok(_RecipeOutsideBUS.GetAllRecipePaging(condition));
         }
+        [HttpPost]
+        public IActionResult GetAllRecipesByUserIdWithPaging([FromBody] NewCondi condi)
+        {
+            return Ok(_RecipeOutsideBUS.GetAllRecipeByUserIdPaging(condi));
+        }
         [HttpGet]
         public IActionResult GetListRecipe()
         {
             return Ok(_RecipeOutsideBUS.GetAllRecipes());
         }
+        [HttpPost]
+        public IActionResult GetRecipeSimilar([FromBody] int id)
+        {
+            return Ok(_RecipeOutsideBUS.GetAllRecipeSimilar(id));
+        }
+
 
 
         [HttpPost]

@@ -26,10 +26,10 @@ namespace CookyBackend.BUS.Outside
             return _instance;
         }
 
-        //public ReturnResult<User> GetAllUserPaging(BaseCondition<User> condition)
-        //{
-        //    return _UserDAL.GetUserPaging(condition);
-        //}
+        public ReturnResult<User> GetUsersWithPaging(BaseCondition<User> condition)
+        {
+            return _UserDAL.GetUsersWithPaging(condition);
+        }
 
         public ReturnResult<User> Login(string username, string password)
         {

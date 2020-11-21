@@ -1,6 +1,7 @@
 ﻿using CMSBackend.Common;
 using CMSBackend.DAL.OusideDAL;
 using Common.Common;
+using CookyBackend.Common;
 using CookyBackend.Models.Entity.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,14 @@ namespace CMSBackend.BUS.Outside
         public ReturnResult<RecipeModel> GetAllRecipePaging(BaseCondition<RecipeModel> condition)
         {
             return _RecipesDAL.GetRecipePaging(condition);
+        }
+        public ReturnResult<RecipeModel> GetAllRecipeByUserIdPaging(NewCondi condi)
+        {
+            return _RecipesDAL.GetRecipeByUserIdPaging(condi);
+        }
+        public ReturnResult<RecipeModel> GetAllRecipeSimilar( int id)
+        {
+            return _RecipesDAL.GetRecipesSimilar(id);
         }
         public ReturnResult<RecipeModel> GetAllRecipes()
         {

@@ -220,5 +220,49 @@ namespace CookyBackend.DAL.OusideDAL
             }
             return result;
         }
+        public ReturnResult<User> GetUsersWithPaging(BaseCondition<User> condition)
+        {
+            DbProvider provider = new DbProvider();
+            List<User> list = new List<User>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<User>();
+            try
+            {
+                provider.SetQuery("Users_GetAllWithPaging", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("PageIndex", SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<User>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+
     }
 }

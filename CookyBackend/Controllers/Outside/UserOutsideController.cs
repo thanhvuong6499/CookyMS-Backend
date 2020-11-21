@@ -39,16 +39,16 @@ namespace CookyBackend.Controllers.Outside
         }
 
 
-        //[HttpPost]
-        //public IActionResult GetAllUserWithPaging([FromBody] BaseCondition<User> condition)
-        //{
-        //    return Ok(_UserOutsideBus.GetAllUserPaging(condition));
-        //}
+        [HttpPost]
+        public IActionResult GetAllUserWithPaging([FromBody] BaseCondition<User> condition)
+        {
+            return Ok(_UserOutsideBus.GetUsersWithPaging(condition));
+        }
 
         [HttpPost]
-        public IActionResult Login([FromBody] string username, string password)
+        public IActionResult Login([FromBody] User user)
         {
-            return Ok(_UserOutsideBus.Login(username,password));
+            return Ok(_UserOutsideBus.Login(user.Username,user.Password));
         }
         [HttpPost]
         public IActionResult Register([FromBody] User User)
