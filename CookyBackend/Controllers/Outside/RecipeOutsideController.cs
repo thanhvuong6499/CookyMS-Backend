@@ -84,5 +84,20 @@ namespace CMSBackend.Controllers.Outside
         {
             return Ok(_RecipeOutsideBUS.GetRecipeById(id));
         }
+        [HttpPost]
+        public IActionResult AprroveRecipe([FromBody] int id)
+        {
+            return Ok(_RecipeOutsideBUS.ApproveRecipe(id));
+        }
+        [HttpPost]
+        public IActionResult RejectRecipe([FromBody] int id)
+        {
+            return Ok(_RecipeOutsideBUS.RejectRecipe(id));
+        }
+        [HttpPost]
+        public IActionResult GetAllRecipesPendingWithPaging([FromBody] BaseCondition<RecipeModel> condition)
+        {
+            return Ok(_RecipeOutsideBUS.GetAllRecipePending(condition));
+        }
     }
 }

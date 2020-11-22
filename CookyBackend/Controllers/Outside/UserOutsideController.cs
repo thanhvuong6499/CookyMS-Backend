@@ -55,16 +55,21 @@ namespace CookyBackend.Controllers.Outside
         {
             return Ok(_UserOutsideBus.Register(User));
         }
-        //[HttpPost]
-        //public IActionResult UpdateUser(User User)
-        //{
-        //    return Ok(_UserOutsideBus.UpdateUser(User));
-        //}
+        [HttpPost]
+        public IActionResult GetUserById([FromBody] int id)
+        {
+            return Ok(_UserOutsideBus.GetUserById(id));
+        }
+        [HttpPost]
+        public IActionResult ActiveUser(User User)
+        {
+            return Ok(_UserOutsideBus.ActiveUser(User));
+        }
         //[HttpPost]
         //public IActionResult DeleteUser([FromQuery] int id)
         //{
         //    return Ok(_UserOutsideBus.DeleteUser(id));
         //}
-     
+
     }
 }

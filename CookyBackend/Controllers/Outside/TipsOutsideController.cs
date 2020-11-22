@@ -50,6 +50,11 @@ namespace CMSBackend.Controllers.Outside
             return Ok(_TipsOutsideBUS.GetAllTipPaging(condition));
         }
         [HttpPost]
+        public IActionResult GetAllTipPendingWithPaging([FromBody] BaseCondition<Tip> condition)
+        {
+            return Ok(_TipsOutsideBUS.GetAllTipPendingPaging(condition));
+        }
+        [HttpPost]
         public IActionResult AddNewTip([FromBody] Tip Tip)
         {
             return Ok(_TipsOutsideBUS.AddNewTip(Tip));
@@ -63,6 +68,16 @@ namespace CMSBackend.Controllers.Outside
         public IActionResult DeleteTip([FromBody] int id)
         {
             return Ok(_TipsOutsideBUS.DeleteTip(id));
+        }
+        [HttpPost]
+        public IActionResult ApproveTip([FromBody] int id)
+        {
+            return Ok(_TipsOutsideBUS.ApproveTip(id));
+        }
+        [HttpPost]
+        public IActionResult RejectTip([FromBody] int id)
+        {
+            return Ok(_TipsOutsideBUS.RejectTip(id));
         }
     }
 }

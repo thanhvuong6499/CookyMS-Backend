@@ -462,5 +462,111 @@ namespace CMSBackend.DAL.OusideDAL
             }
             return result;
         }
+        public ReturnResult<RecipeModel> ApproveRecipe(int id)
+        {
+            ReturnResult<RecipeModel> result = new ReturnResult<RecipeModel>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Recipes_Approve", CommandType.StoredProcedure)
+                .SetParameter("RecipeId", SqlDbType.Int, id, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<RecipeModel> RejectRecipe(int id)
+        {
+            ReturnResult<RecipeModel> result = new ReturnResult<RecipeModel>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Recipe_Reject", CommandType.StoredProcedure)
+                .SetParameter("RecipeId", SqlDbType.Int, id, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<RecipeModel> GetRecipePendingPaging(BaseCondition<RecipeModel> condition)
+        {
+
+            DbProvider provider = new DbProvider();
+            List<RecipeModel> list = new List<RecipeModel>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<RecipeModel>();
+            try
+            {
+                provider.SetQuery("Recipe_GetAllPending", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("PageIndex", SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ReturnMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<RecipeModel>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ReturnMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
     }
 }
