@@ -41,9 +41,21 @@ namespace CMSBackend.BUS.Outside
         {
             return _TipsDAL.DeleteTip(id);
         }
+        public ReturnResult<Tip> ApproveTip(int id)
+        {
+            return _TipsDAL.ApproveTip(id);
+        }
+        public ReturnResult<Tip> RejectTip(int id)
+        {
+            return _TipsDAL.RejectTip(id);
+        }
         public ReturnResult<Tip> GetAllTipPaging(BaseCondition<Tip> condition)
         {
             return _TipsDAL.GetAllTipsPaging(condition);
+        }
+        public ReturnResult<Tip> GetAllTipPendingPaging(BaseCondition<Tip> condition)
+        {
+            return _TipsDAL.GetAllTipsPendingPaging(condition);
         }
 
     }

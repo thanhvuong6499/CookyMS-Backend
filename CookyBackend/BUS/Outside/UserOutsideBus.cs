@@ -39,6 +39,14 @@ namespace CookyBackend.BUS.Outside
         {
             return _UserDAL.Register(User);
         }
+        public ReturnResult<User> GetUserById(int id)
+        {
+            return _UserDAL.GetUserById(id);
+        }
+        public ReturnResult<User> ActiveUser(User user)
+        {
+            return _UserDAL.ActiveUser(user);
+        }
         //public ReturnResult<User> UpdateUser(User User)
         //{
         //    return _UserDAL.UpdateUser(User);

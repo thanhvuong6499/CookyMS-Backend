@@ -59,5 +59,17 @@ namespace CMSBackend.BUS.Outside
         {
             return _RecipesDAL.GetRecipeById(id);
         }
+        public ReturnResult<RecipeModel> ApproveRecipe(int id)
+        {
+            return _RecipesDAL.ApproveRecipe(id);
+        }
+        public ReturnResult<RecipeModel> RejectRecipe(int id)
+        {
+            return _RecipesDAL.RejectRecipe(id);
+        }
+        public ReturnResult<RecipeModel> GetAllRecipePending(BaseCondition<RecipeModel> condition)
+        {
+            return _RecipesDAL.GetRecipePendingPaging(condition);
+        }
     }
 }

@@ -305,5 +305,113 @@ namespace CMSBackend.DAL.OusideDAL
 
             return result;
         }
+        public ReturnResult<Tip> ApproveTip(int id)
+        {
+            ReturnResult<Tip> result = new ReturnResult<Tip>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Tip_Approve", CommandType.StoredProcedure)
+                .SetParameter("TipId", SqlDbType.Int, id, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<Tip> RejectTip(int id)
+        {
+            ReturnResult<Tip> result = new ReturnResult<Tip>(); ;
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("Tip_Reject", CommandType.StoredProcedure)
+                .SetParameter("TipId", SqlDbType.Int, id, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete()
+                .GetOutValue("ErrorCode", out string errorCode)
+                .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<Tip> GetAllTipsPendingPaging(BaseCondition<Tip> condition)
+        {
+
+            DbProvider provider = new DbProvider();
+            List<Tip> list = new List<Tip>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<Tip>();
+            try
+            {
+                provider.SetQuery("Tips_GetAllPending", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
+                    .SetParameter("StartRow", SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<Tip>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
     }
 }
