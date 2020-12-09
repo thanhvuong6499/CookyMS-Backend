@@ -12,7 +12,7 @@ namespace CookyBackend.BUS.Outside
     public class UserOutsideBus
     {
         private UserDAL _UserDAL = UserDAL.UserDALInstance();
-        private UserOutsideBus()
+        public UserOutsideBus()
         {
 
         }

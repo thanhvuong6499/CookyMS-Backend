@@ -84,11 +84,11 @@ namespace CookyBackend.DAL.OusideDAL
                     .SetParameter("Username", SqlDbType.NVarChar, username, ParameterDirection.Input)
                     .SetParameter("Password", SqlDbType.NVarChar, password, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .SetParameter("ReturnMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .GetSingle<User>(out item).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
-                          .GetOutValue("ErrorMessage", out outMessage);
+                          .GetOutValue("ReturnMessage", out outMessage);
 
                 if (outCode != "0" || outCode == "")
                 {
