@@ -71,12 +71,19 @@ namespace CMSBackend
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             //app.UseStaticFiles(new StaticFileOptions()
             //{
             //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
             //    RequestPath = new PathString("/Resources")
             //});
+
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+                RequestPath = "/Resources",
+                EnableDirectoryBrowsing = true
+            });
 
             app.Use(async (context, next) =>
             {

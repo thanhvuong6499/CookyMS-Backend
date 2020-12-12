@@ -69,6 +69,31 @@ namespace CMSBackend.Controllers.Outside
         [HttpPost]
         public IActionResult AddNewRecipe([FromBody] RecipeModel recipe)
         {
+            //var file = Request.Form.Files[0];
+            //var folderName = Path.Combine("Resources", "Images");
+            //if (!Directory.Exists(folderName))
+            //{
+            //    Directory.CreateDirectory(folderName);
+            //}
+            //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            //if (file.Length > 0)
+            //{
+            //    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            //    var fullPath = Path.Combine(pathToSave, fileName);
+            //    var dbPath = Path.Combine(folderName, fileName);
+            //    using (var stream = new FileStream(fullPath, FileMode.Create))
+            //    {
+            //        file.CopyTo(stream);
+            //    }
+            //    recipe.ImageBackgroundUrl = dbPath;
+            //    //return Ok(new { dbPath });
+            //    return Ok(_RecipeOutsideBUS.AddNewRecipe(recipe));
+
+            //}
+            //else
+            //{
+            //    return BadRequest();
+            //}
             return Ok(_RecipeOutsideBUS.AddNewRecipe(recipe));
         }
         [HttpPost]
@@ -123,12 +148,12 @@ namespace CMSBackend.Controllers.Outside
                     {
                         file.CopyTo(stream);
                     }
+
+                    dbPath = dbPath.Replace("\\", "/");
                     return Ok(new { dbPath });
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {
